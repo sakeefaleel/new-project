@@ -1,0 +1,50 @@
+#There is helm terraform provider has been added already if need to apply nginx with helm can be apply .
+#nginx deployment manually created with service account which we created on the GCP console 
+#permissions and role assigns terraform file call "11-service-account.tf explains"
+
+#below how we can apply ngix deployment with helm,
+>  helm repo add ingress-nginx  https://kubernetes.github.io/ingress-nginx
+#update helm repo
+>helm repo update
+
+#customize values.yaml in helm 
+---
+controller:
+  config:
+    compute-full-forwarded-for: "true"
+    use-forwarded-headers: "true"
+    proxy-body-size: "0"
+  ingressClassResource:
+    name: external-nginx
+    enabled: true
+    default: false
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+                - ingress-nginx
+        topologyKey: "kubernetes.io/hostname"
+  replicaCount: 1
+  admissionWebhooks:
+    enabled: false
+  service:
+    annotations:
+      cloud.google.com/load-balancer-type: External
+  metrics:
+    enabled: false
+----
+
+
+helm install my-ing ingress-nginx/ingress-nginx \
+  --namespace ingress \
+  --version 4.0.17 \
+  --values nginx-values.yaml \
+  --create-namespace
+
+================================================================================================================================================
+
+
