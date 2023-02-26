@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"ingress-nginx","Source":"./modules/ingress-nginx","Dir":"modules/ingress-nginx"},{"Key":"test_app","Source":"./modules/testapp","Dir":"modules/testapp"},{"Key":"","Source":"","Dir":"."},{"Key":"certmanager","Source":"./modules/cert-manager","Dir":"modules/cert-manager"}]}

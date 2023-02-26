@@ -24,8 +24,8 @@ module "test_app" {
   hostname = "test.test.opensight.ch"
 
   depends_on = [
-    "module.ingress-nginx",
-    "module.certmanager"
+    module.ingress-nginx,
+    module.certmanager
   ]
 }
 
